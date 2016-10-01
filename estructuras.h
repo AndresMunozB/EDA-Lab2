@@ -10,6 +10,7 @@ typedef	struct Nodo
 
 typedef struct List
 {
+	int length;
 	Nodo* first;
 	Nodo* last;
 	
