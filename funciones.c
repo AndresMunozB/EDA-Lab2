@@ -44,6 +44,62 @@ void add(List* list, char letter){ // arega una letra a la lista
 	list->length+=1;
 
 }
+List* invert(List* list){
+	List* listInvert= (List*)createList();
+	Nodo* actual=list->last;
+	do{
+		//printf("letter: %c\n",actual->letter );
+		add(listInvert,actual->letter);
+		actual=actual->back;
+	}while(actual!=list->last);
+	return listInvert;
+}
+void delete(List* list,int position){
+	Nodo* actual=list->first;
+	Nodo* previus=NULL;
+	if (list->length==1){
+		free(actual);
+		list->first=NULL;
+		list->last=NULL;
+	}
+
+	if(list->first!=NULL){
+		int i;
+		for (i = 0; i < position; i++){
+			actual = actual->next;
+		}
+
+		 if (actual==list->first){
+			list->first=list->first->next;
+			list->first->back=list->last;
+			list->last->next=list->first;
+		}
+		else if(actual==list->last){
+			list->last=list->last->back;
+			list->last->next=list->first;
+			list->first->back=list->last;
+		}
+		else{
+			actual->back->next=actual->next;
+			actual->next->back=actual->back;
+		}
+	}
+	list->length-=1;
+	free(actual);
+}
+void deleteList(List* list){
+	int i;
+	int length=list->length;
+	for(i=0;i<length;i++){
+		delete(list,0);
+		//showListFL(list);
+	}
+}
+void deleteSpaceLast(List* list){
+	while(list->last->letter==' '){
+		delete(list,list->length-1);
+	}
+}
 int find(List* list,char letter){ // verifica si se encuentra la letra en la lista ->0:no esta , 1:si esta
 	Nodo* actual=list->first;
 	if(list->first==NULL){
@@ -152,20 +208,32 @@ int isConsonant(char letter){
 
 void showListFL(List* list){ //muestra la lista adelante hacia atras
 	Nodo* actual=list->first;
-	do{
-		printf("%c ",actual->letter );
-		actual=actual->next;
-	}while(actual!=list->first);
-	printf(";\n");
+	if(list->first==NULL){
+		printf("()\n");
+	}
+	else{
+		printf("(" );
+		do{
+			printf("%c ",actual->letter );
+			actual=actual->next;
+		}while(actual!=list->first);
+		printf(")\n");
+	}
 }
 
 void showListLF(List* list){ //muestra la lista desde atras hacia delante
 	Nodo* actual=list->last;
-	do{
-		printf("%c ",actual->letter );
-		actual=actual->back;
-	}while(actual!=list->last);
-	printf(";\n");
+	if(list->first==NULL){
+		printf("()\n");
+	}
+	else{
+		printf("(");
+		do{
+			printf("%c ",actual->letter );
+			actual=actual->back;
+		}while(actual!=list->last);
+		printf(")\n");
+	}
 }
 void moveLeft(List* list){ // desplaza la lsita hacia la izquierda
 	Nodo* actual=list->first;
@@ -311,6 +379,7 @@ int  encode(){
 
 	//creando todas las lsitas a ocupar
 	List* list=(List*)stringToList(buffer);
+	deleteSpaceLast(list);
 	List* listLetters=(List*)createListEncode(list);
 	List* listEncode=(List*)listcpy(listLetters);
 	List* listFinal=(List*)createList();
@@ -342,11 +411,17 @@ int  encode(){
 
 	}
 
+	//mostrarListas
+	/*showListFL(list);
+   	showListFL(listLetters);
+   	showListFL(listEncode);
+   	showListFL(listFinal);*/
+
 	//esta es la salida:
 	//showListFL(listFinal);
 	char* stringEncoded =(char*)listToString(listFinal);
 	int comparation=compareList(listLetters,listEncode);
-	printf("stringEncoded :(%s)\n",stringEncoded );
+	//printf("stringEncoded :(%s)\n",stringEncoded );
 	
 	//printf("comparacion: %d\n",comparation );
 	//salida al archivo de texto con el string encriptado
@@ -367,47 +442,137 @@ int  encode(){
    	fputs("\n",fileOut);
    	fputs(stringAlphabet,fileOut);
 
-
+   	deleteList(list);
+	deleteList(listLetters);
+	deleteList(listEncode);
+	deleteList(listFinal);
 	fclose(fileOut);
+	return 1;
 
 }
 
 int decode(){
 	FILE* fp= fopen("Descifrado/Entrada.in.txt","r");
+	//printf("decode\n");
    	if(fp == NULL){
       	printf("archivo no existe\n");
      	//return NULL;
    	}
-   	char buffer[intBuffer];
 
+   	char buffer[intBuffer];
    	char stringComparation[5];
    	char stringEncoded[intBuffer];
    	char stringAlphabet[intBuffer];
-
    	memset(stringComparation,0,5);
-
+   	//recorriendo el arrchivo de texto y guardando los datos en las variables
 	fgets(buffer,intBuffer,fp);
 	fgets(buffer,intBuffer,fp);
    	memcpy(stringComparation,buffer,2);
-   	int comparation=atoi(stringComparation);
    	fgets(stringEncoded,intBuffer,fp);
    	fgets(stringAlphabet,intBuffer,fp);
-   	printf("%s",stringEncoded );
-   	List* listEncoded=(List*)stringToList(stringEncoded);
-   	List* listLetters=(List*)stringToList(stringAlphabet);
-   	List* listLetters2=(List*)createListEncode(listLetters);
-   	showListFL(listLetters);
-   	showListFL(listLetters2);
-   	bubbleSort(listLetters);
-   	add(listLetters,' ');
-	
-   	showListFL(listEncoded);
-   	showListFL(listLetters2);
-   	printf("comparation: %d\n",comparation );
-   	
-	
-	fclose(fp);
-	
+   	//cerrar el archivo, no se ocupara mas.
+   	fclose(fp);
 
+   	int comparation=atoi(stringComparation);
+   	//crear las listas para trabajar:
+   	List* list=(List*)stringToList(stringEncoded);
+   	List* listLettersAux=(List*)stringToList(stringAlphabet);
+   	//eliminar todos los espacios de sobra al final de las listas
+   	deleteSpaceLast(list);
+   	deleteSpaceLast(listLettersAux);
+   	//ordenar las letras de abecedario y agregar el espacio al final
+   	List* listLetters=(List*)createListEncode(listLettersAux);
+   	List* listEncode=(List*)listcpy(listLetters);
+   	List* listFinal=createList();
+   	//eliminar la lista utilizada para crear la lista del alfabeto
+   	deleteList(listLettersAux);
+   	free(listLettersAux);
+
+
+   	int i;
+   	for(i=0;i<comparation;i++){
+   		moveRight(listEncode);
+   	}
+
+   	//mostrarListas
+   	/*showListFL(list);
+   	showListFL(listLetters);
+   	showListFL(listEncode);
+   	showListFL(listFinal);*/
+
+   	//descifrar el texto
+   	Nodo* an1=list->last;
+	char letterDecode;
+	int position;
+   	if(list->first==NULL){
+		printf("null list\n");
+		return 0;
+	}
+	else{
+		do{
+			if(isVowel(an1->letter) || an1->letter==' '){
+				moveRight(listEncode);
+				moveRight(listEncode);
+				moveRight(listEncode);
+			}
+			else if(isConsonant(an1->letter)){
+				
+				moveLeft(listEncode);
+			}
+			position=findPosition(listEncode,an1->letter);
+			letterDecode=getLetter(listLetters,position);
+			//showListFL(listLetters);
+   			//showListFL(listEncode);
+			//printf("position: %d letter: %c-> %c\n",position,an1->letter,letterEncoded );
+			add(listFinal,letterDecode);
+			
+			an1=an1->back;
+		}while(an1!=list->last);
+
+	}
+	//showListFL(listFinal);
+	List* listInvert=(List*)invert(listFinal);
+	//printf("listainvert\n");
+	//showListFL(listInvert);
+
+
+	int comparationFinal=compareList(listLetters,listEncode);
+	//printf("hola: %d\n",comparationFinal );
+	char* stringDecode=(char*)listToString(listInvert);
+	//printf("%s\n",stringDecode );
+	FILE* fileOut=fopen("Descifrado/Salida.out.txt","w");
+	fputs(stringDecode,fileOut);
+	fputs("\n",fileOut);
+
+   	memset(stringComparation,0,5);
+   	sprintf(stringComparation,"%02d",comparationFinal);
+	fputs(stringComparation,fileOut);
+
+
+
+	//eliminar las listas:
+	deleteList(list);
+	deleteList(listLetters);
+	deleteList(listEncode);
+	deleteList(listFinal);
+	deleteList(listInvert);
+	fclose(fileOut);
+	return 1;
+
+
+   	//printf("comparation: %d\n",comparation );
+   	
 }
+
+void showTitle(){
+
+                                                                                                                              
+	printf("  _____         _                           _                                  _            ____            _                 \n" );
+	printf(" | ____|  ___  | |_   _ __   _   _    ___  | |_   _   _   _ __    __ _      __| |   ___    |  _ \\    __ _  | |_    ___    ___ \n");
+	printf(" |  _|   / __| | __| | '__| | | | |  / __| | __| | | | | | '__|  / _` |    / _` |  / _ \\   | | | |  / _` | | __|  / _ \\  / __|\n");
+	printf(" | |___  \\__ \\ | |_  | |    | |_| | | (__  | |_  | |_| | | |    | (_| |   | (_| | |  __/   | |_| | | (_| | | |_  | (_) | \\__ \\\n");
+	printf(" |_____| |___/  \\__| |_|     \\__,_|  \\___|  \\__|  \\__,_| |_|     \\__,_|    \\__,_|  \\___|   |____/   \\__,_|  \\__|  \\___/  |___/\n");
+	printf("\n\n\n");
+}
+
 

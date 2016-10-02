@@ -5,49 +5,35 @@
 #define intBuffer 50000
 
 int main(){
-
-	encode();
-	//imprimir();
-	decode();
-	/*while(1){
-		char letra;
+	int menu=0;
+	char pause[intBuffer];
+	showTitle();
+	do{
+		printf("		MENU\n" );
+		printf("1) Codificar texto en Cifrado/Entrada.in.txt\n");
+		printf("2) Decodificar texto en Descifrado/Entrada.in.txt\n");
+		printf("3) Salir\n\n");
+		printf("Ingrese una opcion: ");
 		fflush(stdin);
-		scanf("%c",&letra);
-		printf("vocal:      %d \n",isVowel(letra) );
-		printf("consonante: %d \n",isConsonant(letra) );
-	}*/
-	
-	//int position=findPosition(listLetters,'r');
+		scanf("%d",&menu);
+		switch (menu){
+			case 1:
+				encode();
+				printf("El texto ha codificado, puedes verlo en Cifrado/Salida.out.txt\n");
+				printf("Presione 'Enter' para continuar...");
+				fflush(stdin);
+				gets(pause);
+				break;
+			case 2:
+				decode();
+				printf("El texto ha decodificado, puedes verloen Descifrado/Salida.out.txt\n");
+				printf("Presione 'Enter' para continuar...");
+				fflush(stdin);
+				gets(pause);
+				break;
+		}
+		printf("\n\n\n");
+	}while(menu!=3);
 
-	//printf("position: %d , letra: %c",position,getLetter(listLetters,position));
-
-
-	/*int i;
-	printf("forrr\n");
-	for(i = 0; string[i]; i++){
-	   	printf("%c ",string[i]);
-	}
-	printf("\n");
-	moveRight(list2);
-	moveRight(list2);
-	moveRight(list2);
-	moveRight(list2);
-	moveRight(list2);
-	showListFL(list);	
-	showListFL(list2);
-	//encode();
-	printf("\n %d \n",compareList(list,list2) );*/
-	
-	/*printf("copiando sin la funcion\n");
-	List* list2New=list2;
-	list2New->first->letter='v';
-	showListFL(list2);
-	showListFL(list2New);
-	printf("\n");
-	printf("copiando con la funcion\n");
-	List* listNew=(List*)listcpy(list);
-	listNew->first->letter='v';
-	showListFL(list);
-	showListFL(listNew);*/
 	return 0;
 }
