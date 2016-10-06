@@ -7,7 +7,18 @@
 #define intBuffer 50000
 
 
+/**
+ * Funcion pause
+*/
+void pause(){
+	printf("Press 'Enter' to continue: ... ");
+	fflush(stdin);
+	while ( getchar() != '\n');
+}
 
+/**
+ * Funcion createNodo
+*/
 Nodo* createNodo(char letter){ // crea un nodo con una letra dentro
 	Nodo* new= (Nodo*)malloc(sizeof(Nodo));
 	if(new!=NULL){
@@ -17,6 +28,10 @@ Nodo* createNodo(char letter){ // crea un nodo con una letra dentro
 	}
 	return new;
 }
+
+/**
+ * Funcion  createList
+*/
 List* createList(){ //crea una lsita incializada
 	List* list=(List*)malloc(sizeof(List));
 	list->first=NULL;
@@ -25,7 +40,9 @@ List* createList(){ //crea una lsita incializada
 	return list;
 }
 
-
+/**
+ * Funcion add
+*/
 void add(List* list, char letter){ // arega una letra a la lista
 	Nodo* new=(Nodo*)createNodo(letter);
 	if(list->first==NULL){
@@ -44,6 +61,10 @@ void add(List* list, char letter){ // arega una letra a la lista
 	list->length+=1;
 
 }
+
+/**
+ * Funcion invert
+*/
 List* invert(List* list){
 	List* listInvert= (List*)createList();
 	Nodo* actual=list->last;
@@ -54,11 +75,15 @@ List* invert(List* list){
 	}while(actual!=list->last);
 	return listInvert;
 }
+
+/**
+ * Funcion delete
+*/
 void delete(List* list,int position){
 	Nodo* actual=list->first;
 
 	if(list->first!=NULL){
-		printf("caracter eliminado: %c\n",actual->letter );
+		//printf("caracter eliminado: %c\n",actual->letter );
 		int i;
 		for (i = 0; i < position; i++){
 			actual = actual->next;
@@ -82,22 +107,26 @@ void delete(List* list,int position){
 	list->length-=1;
 	free(actual);
 }
+
+/**
+ * Funcion deleteList
+*/
 void deleteList(List* list){
-	printf("holaaa entre al deleteList\n");
+	//printf("holaaa entre al deleteList\n");
 	int i;
 	int length=list->length;
 	if (list->first!=NULL){
 		int contador=0;
 		for(i=0;i<length;i++){
 			delete(list,0);
-			printf("contador deteleList: %d\n",contador );
+			//printf("contador deteleList: %d\n",contador );
 			contador+=1;
 			//printf("holaa\n");
 			//printf("eleimine\n");
 			//showListFL(list);
 		}
 	}
-	printf("largo : %d\n",list->length );
+	//printf("largo : %d\n",list->length );
 	if (list->length==0){
 
 		//printf("entre a la cabeza\n");
@@ -105,14 +134,23 @@ void deleteList(List* list){
 		//free(list->first);
 		list->first=NULL;
 		list->last=NULL;
+		free(list);
 	}
 	
 }
+
+/**
+ * Funcion deleteSpaceLast
+*/
 void deleteSpaceLast(List* list){
 	while(list->last->letter==' '){
 		delete(list,list->length-1);
 	}
 }
+
+/**
+ * Funcion find
+*/
 int find(List* list,char letter){ // verifica si se encuentra la letra en la lista ->0:no esta , 1:si esta
 	Nodo* actual=list->first;
 	if(list->first==NULL){
@@ -128,6 +166,10 @@ int find(List* list,char letter){ // verifica si se encuentra la letra en la lis
 	}while(actual!=list->first);
 	return 0;
 }
+
+/**
+ * Funcion findPosition
+*/
 int findPosition(List* list,char letter){
 	if (list->first==NULL){
 		return -1;
@@ -148,6 +190,10 @@ int findPosition(List* list,char letter){
 	}while(actual!=list->first);
 	return -1;
 }
+
+/**
+ * Funcion getLetter
+*/
 char getLetter(List* list,int position){
 	Nodo* actual=list->first;
 	if(list->first==NULL){
@@ -165,6 +211,10 @@ char getLetter(List* list,int position){
 	}
 	return actual->letter;
 }
+
+/**
+ * Funcion isVowel
+*/
 int isVowel(char letter){
 	letter=tolower(letter);
 	List* vowels=(List*) createList();
@@ -182,6 +232,10 @@ int isVowel(char letter){
 		return 0;
 	}
 }
+
+/**
+ * Funcion isConsonant
+*/
 int isConsonant(char letter){
 	letter=tolower(letter);
 	List* consonants=(List*) createList();
@@ -218,7 +272,9 @@ int isConsonant(char letter){
 }
 
 
-
+/**
+ * Funcion showListFL
+*/
 void showListFL(List* list){ //muestra la lista adelante hacia atras
 	Nodo* actual=list->first;
 	if(list->first==NULL){
@@ -234,6 +290,9 @@ void showListFL(List* list){ //muestra la lista adelante hacia atras
 	}
 }
 
+/**
+ * Funcion showListLF
+*/
 void showListLF(List* list){ //muestra la lista desde atras hacia delante
 	Nodo* actual=list->last;
 	if(list->first==NULL){
@@ -248,6 +307,10 @@ void showListLF(List* list){ //muestra la lista desde atras hacia delante
 		printf(")\n");
 	}
 }
+
+/**
+ * Funcion moveLeft
+*/
 void moveLeft(List* list){ // desplaza la lsita hacia la izquierda
 	Nodo* actual=list->first;
 	char aux=actual->letter;
@@ -257,6 +320,10 @@ void moveLeft(List* list){ // desplaza la lsita hacia la izquierda
 	}while(actual->next!=list->first);
 	list->last->letter=aux;
 }
+
+/**
+ * Funcion moveRigth
+*/
 void moveRight(List* list){ //desplaza la lsita hacia la derecha
 	Nodo* actual=list->last;
 	char aux=actual->letter;
@@ -267,6 +334,9 @@ void moveRight(List* list){ //desplaza la lsita hacia la derecha
 	list->first->letter=aux;
 }
 
+/**
+ * Funcion stringToList
+*/
 List* stringToList(char* string){ //ingresa todas las letras sin repeticion y en minusculas a una lista
 	int i;
 	//printf("hola\n");
@@ -282,6 +352,9 @@ List* stringToList(char* string){ //ingresa todas las letras sin repeticion y en
 	return list;
 }
 
+/**
+ * Funcion listToString
+*/
 char* listToString(List* list){
 	int length=list->length+1;
 	char* string=(char*)malloc(sizeof(char)*(length));
@@ -301,7 +374,9 @@ char* listToString(List* list){
 	return string;
 }
 
-
+/**
+ * Funcion createListEncode
+*/
 List* createListEncode(List* list){
 	Nodo* actual=list->first;
 	List* listEncode=(List*)createList();
@@ -322,7 +397,9 @@ List* createListEncode(List* list){
 	return	listEncode;
 }
 
-
+/**
+ * Funcion listcpy
+*/
 List* listcpy(List* list){
 	List* listNew=(List*)createList();
 	if(list->first==NULL){
@@ -337,6 +414,10 @@ List* listcpy(List* list){
 	}
 	return listNew;
 }
+
+/**
+ * Funcion buubleSort
+*/
 void bubbleSort(List* list){ //ordena alfabeticamente las letras de una lista!
 	int t;
 	Nodo* actual = list->first;
@@ -356,6 +437,9 @@ void bubbleSort(List* list){ //ordena alfabeticamente las letras de una lista!
 	}
 }
 
+/**
+ * Funcion compareList
+*/
 int compareList(List* list,List* list2){ // devuelve el desface entre dos listas de caracteres
 	int counter=0;
 	Nodo* actual=list2->first;
@@ -374,7 +458,9 @@ int compareList(List* list,List* list2){ // devuelve el desface entre dos listas
 	}while(actual!=list2->first);
 }
 
-
+/**
+ * Funcion encode
+*/
 int  encode(){
 
 	//obteniendo el string a cifrar
@@ -450,20 +536,23 @@ int  encode(){
    	fputs("\n",fileOut);
    	fputs(stringComparation,fileOut);
 
-   	//sacar esto despues!!
+   	//sacar esto despues!! con esto se puede ingresa el alfabeto utilziado dentro del archivo de texto!
    	char* stringAlphabet=(char*)listToString(listLetters);
    	fputs("\n",fileOut);
    	fputs(stringAlphabet,fileOut);
 
    	deleteList(list);
-	/*deleteList(listLetters);
+	deleteList(listLetters);
 	deleteList(listEncode);
-	deleteList(listFinal);*/
+	deleteList(listFinal);
 	fclose(fileOut);
 	return 1;
 
 }
 
+/**
+ * Funcion decode
+*/
 int decode(){
 	FILE* fp= fopen("Descifrado/Entrada.in.txt","r");
 	//printf("decode\n");
@@ -495,6 +584,7 @@ int decode(){
    	deleteSpaceLast(listLettersAux);
    	//ordenar las letras de abecedario y agregar el espacio al final
    	List* listLetters=(List*)createListEncode(listLettersAux);
+   	showListFL(listLetters);	
    	List* listEncode=(List*)listcpy(listLetters);
    	List* listFinal=createList();
    	//eliminar la lista utilizada para crear la lista del alfabeto
@@ -577,6 +667,9 @@ int decode(){
    	
 }
 
+/**
+ * Funcion showTitle
+*/
 void showTitle(){
 
                                                                                                                               

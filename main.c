@@ -6,7 +6,7 @@
 
 int main(){
 	int menu=0;
-	char pause[intBuffer];
+	//char pause[intBuffer];
 	showTitle();
 	do{
 		printf("		MENU\n" );
@@ -20,16 +20,12 @@ int main(){
 			case 1:
 				encode();
 				printf("El texto ha codificado, puedes verlo en Cifrado/Salida.out.txt\n");
-				printf("Presione 'Enter' para continuar...");
-				fflush(stdin);
-				scanf("%s",pause);
+				pause();
 				break;
 			case 2:
 				decode();
 				printf("El texto ha decodificado, puedes verloen Descifrado/Salida.out.txt\n");
-				printf("Presione 'Enter' para continuar...");
-				fflush(stdin);
-				scanf("%s",pause);
+				pause();
 				break;
 		}
 		printf("\n\n\n");
