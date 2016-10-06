@@ -13,7 +13,9 @@
 void pause(){
 	printf("Press 'Enter' to continue: ... ");
 	fflush(stdin);
-	while ( getchar() != '\n');
+	while ( getchar() != '\n'){
+		fflush(stdin);
+	}
 }
 
 /**
@@ -225,10 +227,12 @@ int isVowel(char letter){
 	add(vowels,'u');
 	if(find(vowels,letter)){
 		//liberar lista
+		deleteList(vowels);
 		return 1;
 	}
 	else{
 		//liberar lista
+		deleteList(vowels);
 		return 0;
 	}
 }
@@ -262,10 +266,12 @@ int isConsonant(char letter){
 	add(consonants,'z');
 	if(find(consonants,letter)){
 		//liberar lista
+		deleteList(consonants);
 		return 1;
 	}
 	else{
 		//liberar lista
+		deleteList(consonants);
 		return 0;
 	}
 
