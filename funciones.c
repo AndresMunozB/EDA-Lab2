@@ -590,7 +590,7 @@ int decode(){
    	deleteSpaceLast(listLettersAux);
    	//ordenar las letras de abecedario y agregar el espacio al final
    	List* listLetters=(List*)createListEncode(listLettersAux);
-   	showListFL(listLetters);	
+   	//showListFL(listLetters);	
    	List* listEncode=(List*)listcpy(listLetters);
    	List* listFinal=createList();
    	//eliminar la lista utilizada para crear la lista del alfabeto
