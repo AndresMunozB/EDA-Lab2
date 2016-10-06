@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <conio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "funciones.h"
@@ -56,14 +56,9 @@ List* invert(List* list){
 }
 void delete(List* list,int position){
 	Nodo* actual=list->first;
-	Nodo* previus=NULL;
-	if (list->length==1){
-		free(actual);
-		list->first=NULL;
-		list->last=NULL;
-	}
 
 	if(list->first!=NULL){
+		printf("caracter eliminado: %c\n",actual->letter );
 		int i;
 		for (i = 0; i < position; i++){
 			actual = actual->next;
@@ -88,12 +83,30 @@ void delete(List* list,int position){
 	free(actual);
 }
 void deleteList(List* list){
+	printf("holaaa entre al deleteList\n");
 	int i;
 	int length=list->length;
-	for(i=0;i<length;i++){
-		delete(list,0);
-		//showListFL(list);
+	if (list->first!=NULL){
+		int contador=0;
+		for(i=0;i<length;i++){
+			delete(list,0);
+			printf("contador deteleList: %d\n",contador );
+			contador+=1;
+			//printf("holaa\n");
+			//printf("eleimine\n");
+			//showListFL(list);
+		}
 	}
+	printf("largo : %d\n",list->length );
+	if (list->length==0){
+
+		//printf("entre a la cabeza\n");
+		//printf("caracter eliminado: %c\n",list->first->letter );
+		//free(list->first);
+		list->first=NULL;
+		list->last=NULL;
+	}
+	
 }
 void deleteSpaceLast(List* list){
 	while(list->last->letter==' '){
@@ -443,9 +456,9 @@ int  encode(){
    	fputs(stringAlphabet,fileOut);
 
    	deleteList(list);
-	deleteList(listLetters);
+	/*deleteList(listLetters);
 	deleteList(listEncode);
-	deleteList(listFinal);
+	deleteList(listFinal);*/
 	fclose(fileOut);
 	return 1;
 
@@ -486,7 +499,7 @@ int decode(){
    	List* listFinal=createList();
    	//eliminar la lista utilizada para crear la lista del alfabeto
    	deleteList(listLettersAux);
-   	free(listLettersAux);
+   	//free(listLettersAux);
 
 
    	int i;

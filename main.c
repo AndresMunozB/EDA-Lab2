@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <conio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include "funciones.h"
 #define intBuffer 50000
@@ -22,14 +22,14 @@ int main(){
 				printf("El texto ha codificado, puedes verlo en Cifrado/Salida.out.txt\n");
 				printf("Presione 'Enter' para continuar...");
 				fflush(stdin);
-				gets(pause);
+				scanf("%s",pause);
 				break;
 			case 2:
 				decode();
 				printf("El texto ha decodificado, puedes verloen Descifrado/Salida.out.txt\n");
 				printf("Presione 'Enter' para continuar...");
 				fflush(stdin);
-				gets(pause);
+				scanf("%s",pause);
 				break;
 		}
 		printf("\n\n\n");
