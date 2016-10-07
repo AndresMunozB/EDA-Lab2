@@ -19,12 +19,12 @@ int main(){
 		switch (menu){
 			case 1:
 				encode();
-				printf("El texto ha codificado, puedes verlo en Cifrado/Salida.out.txt\n");
+				printf("El texto ha sido codificado, puedes verlo en Cifrado/Salida.out.txt\n");
 				pause();
 				break;
 			case 2:
 				decode();
-				printf("El texto ha decodificado, puedes verloen Descifrado/Salida.out.txt\n");
+				printf("El texto ha sido decodificado, puedes verloen Descifrado/Salida.out.txt\n");
 				pause();
 				break;
 		}

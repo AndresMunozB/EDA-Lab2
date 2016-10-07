@@ -543,9 +543,9 @@ int  encode(){
    	fputs(stringComparation,fileOut);
 
    	//sacar esto despues!! con esto se puede ingresa el alfabeto utilziado dentro del archivo de texto!
-   	char* stringAlphabet=(char*)listToString(listLetters);
+   	/*char* stringAlphabet=(char*)listToString(listLetters);
    	fputs("\n",fileOut);
-   	fputs(stringAlphabet,fileOut);
+   	fputs(stringAlphabet,fileOut);*/
 
    	deleteList(list);
 	deleteList(listLetters);
@@ -678,13 +678,12 @@ int decode(){
 */
 void showTitle(){
 
-                                                                                                                              
-	printf("  _____         _                           _                                  _            ____            _                 \n" );
-	printf(" | ____|  ___  | |_   _ __   _   _    ___  | |_   _   _   _ __    __ _      __| |   ___    |  _ \\    __ _  | |_    ___    ___ \n");
-	printf(" |  _|   / __| | __| | '__| | | | |  / __| | __| | | | | | '__|  / _` |    / _` |  / _ \\   | | | |  / _` | | __|  / _ \\  / __|\n");
-	printf(" | |___  \\__ \\ | |_  | |    | |_| | | (__  | |_  | |_| | | |    | (_| |   | (_| | |  __/   | |_| | | (_| | | |_  | (_) | \\__ \\\n");
-	printf(" |_____| |___/  \\__| |_|     \\__,_|  \\___|  \\__|  \\__,_| |_|     \\__,_|    \\__,_|  \\___|   |____/   \\__,_|  \\__|  \\___/  |___/\n");
-	printf("\n\n\n");
+ 	printf("  _____   ____       _        \n");
+ 	printf(" | ____| |  _ \\     / \\       \n");
+ 	printf(" |  _|   | | | |   / _ \\      \n");
+ 	printf(" | |___  | |_| |  / ___ \\   _ \n");
+ 	printf(" |_____| |____/  /_/   \\_\\ (_)\n");
+ 	printf("\n\n");
 }
 
 
